@@ -1,4 +1,8 @@
 <?php
+session_start();
+if (!isset($_SESSION['user'])) {
+    header("Location: login.php");
+}
 include "../config.php";
 include "../template/header.php";
 ?>
@@ -37,26 +41,26 @@ include "../template/header.php";
 
             </div>
             <hr />
-                                   
+
             <?php
             if (isset($_POST['enviar'])) {
                 //if (isset($_POST['senha' == 'senha2'])) {
-                    $arquivo = "../template/imagens/" . $_FILES["foto"]["name"];
-                    if (move_uploaded_file($_FILES["foto"]["tmp_name"], $arquivo)) {
+                $arquivo = "../template/imagens/" . $_FILES["foto"]["name"];
+                if (move_uploaded_file($_FILES["foto"]["tmp_name"], $arquivo)) {
 
-                        require_once "../dataBase.php";
-                        #executar consulta no BD
-                        $sql = "INSERT INTO usuario (nome, email, senha, foto) 
-                                        VALUES('{$_POST['nome']}','{$_POST['email']}','{$_POST['senha']}','{$arquivo}')";
+                    require_once "../dataBase.php";
+                    #executar consulta no BD
+                    $sql = "INSERT INTO usuario (nome, email, senha, foto) 
+                    VALUES('{$_POST['nome']}','{$_POST['email']}','{$_POST['senha']}','{$arquivo}')";
 
-                        //echo $sql;
-                        if (!$con->query($sql)) {
-                            echo "Falha ao salvar registro!";
-                        }
+                    //echo $sql;
+                    if (!$con->query($sql)) {
+                        echo "Falha ao salvar registro!";
                     }
+                }
                 //}else{echo"Senhas incorretas";}
             }
-           
+
             include "../paginas/listaContas.php";
             ?>
         </div>

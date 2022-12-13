@@ -1,19 +1,19 @@
 <div class="cards" style="padding:20px; display:flex; ">
     <?php
-        require_once "../dataBase.php";
-        $sql="SELECT * FROM usuario";
-        $resultado=$con->query($sql);
-        
-        while($usuario=$resultado->fetch_array()){
-            echo '      
+    require_once "../dataBase.php";
+    $sql = "SELECT * FROM usuario";
+    $resultado = $con->query($sql);
+
+    while ($usuario = $resultado->fetch_array()) {
+        echo '      
             <div class="padd">
                 <div class="cards-body cards-align">
-                    <img class="card-img-top perfil" src="'.$usuario['foto'].'" alt="Card image cap">
-                        <h5 class="card-title">'.$usuario['nome'].'</h5>
-                        <p class="card-text">'.$usuario['email'].'</p>
+                    <img class="card-img-top perfil" src="' . $usuario['foto'] . '" alt="Card image cap">
+                        <h5 class="card-title">' . $usuario['nome'] . '</h5>
+                        <p class="card-text">' . $usuario['email'] . '</p>
                     <div>
-                        <a type="button" href="excluir.php?=id'.$usuario['id'].'" name="editar" class="btn btn-primary">editar</a>
-                        <input type="button" value="Excluir" href="excluir.php?=id'.$usuario['id'].'" class="btn btn-primary bx" style="--bs-btn-color: #fff;
+                        <a type="button" name="editar" class="btn btn-primary">editar</a>
+                        <input type="button" value="Excluir" href="excluir.php?=id' . $usuario['id'] . '" class="btn btn-primary bx" style="--bs-btn-color: #fff;
                         --bs-btn-bg: #ff0000;
                         --bs-btn-border-color: #fd0d0d;
                         --bs-btn-hover-color: #fff;
@@ -30,6 +30,6 @@
                     </div>                       
                 </div>
             </div>';
-        }
-    ?>       
+    }
+    ?>
 </div>

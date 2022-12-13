@@ -6,6 +6,10 @@ session_start();
     include "config.php";
     include "./template/header.php";
 ?>
+<link rel="stylesheet" href="./template/CSS/style.css">
+<style>
+    .main{background-image: url(./template/);}
+</style>
     <main class="index">
         <section>    
             <div class="corpo">

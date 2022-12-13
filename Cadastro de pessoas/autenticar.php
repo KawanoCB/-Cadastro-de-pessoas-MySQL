@@ -9,7 +9,7 @@ if(isset($_POST['submit'])){
   #sim
   #realizar consulta na tabela 
   $email=$_POST['email'];
-  $senha=($_POST['senha']); //md5
+  $senha=($_POST['senha']); //Apesar que atualmente o padrão de crypt md5 não seja tão seguro
   $sql="SELECT id, nome, email, foto     
         FROM usuario
         WHERE email='$email' 

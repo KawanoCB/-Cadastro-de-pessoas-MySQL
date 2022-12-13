@@ -1,5 +1,6 @@
 <?php
 include "../config.php";
+//include "./consultabanco.php";
 ?>
 <!DOCTYPE html>
 <link rel="stylesheet" href="../template/CSS/style.css">
@@ -52,22 +53,22 @@ include "../config.php";
                 <div class="cadast">
                     <div class="row g-3" style="display: block; margin-left: initial;">
                         <div class="col-sm-">
-                            <input type="text" name="nome" class="form-control" placeholder="Nome" aria-label="nome">
+                            <input type="text" name="nome" id="nome" class="form-control" placeholder="Nome" aria-label="nome">
                         </div>
                         <div class="col-sm-">
-                            <input type="text" name="email" class="form-control" placeholder="Email" aria-label="email">
+                            <input type="text" name="email" id="email" class="form-control" placeholder="Email" aria-label="email">
                         </div>
                         <div class="col-sm-">
-                            <input type="password" name="senha" class="form-control" placeholder="Senha" aria-label="senha">
+                            <input type="password" placeholder="Digite uma senha" name="senha" id="senha" class="form-control" aria-label="senha">
                         </div>
                         <div class="col-sm-">
-                            <input type="password" name="senha2" class="form-control" placeholder="Senha" aria-label="senha">
+                            <input type="password" placeholder="Confirme sua senha" name="senha2" id="senha2" class="form-control" aria-label="senha">
                         </div>
                         <div class="col-sm- box4">
                             <input type="file" id="foto" name="foto" accept="image/*" class="form-control">
                         </div>
                         <div class="col-sm- row g- colum-9" style="padding: 15px 7px; width: 100%; margin-left: initial;">
-                            <input type="submit" name="enviar" value="Enviar" class="btn btn-primary" />
+                            <input type="submit" onclick="autenticarsenhas(event)" name="enviar" value="Enviar" class="btn btn-primary" />
                         </div>
                         <div class="cadas">
                             <a class="cadastro" href="login.php">Login</a>
@@ -78,25 +79,77 @@ include "../config.php";
                     </div-->
                 </div>
             </form>
-            <?php
-            if (isset($_POST['enviar'])) {
-                //if (isset($_POST['senha' == 'senha2'])) {
-                $arquivo = "../template/imagens/" . $_FILES["foto"]["name"];
-                if (move_uploaded_file($_FILES["foto"]["tmp_name"], $arquivo)) {
+            <script>
+                function autenticarsenhas(event) {
+                    // Create arrays of property names
+                    var aProps = document.getElementById('nome').value;
+                    var aProps = document.getElementById('email').value;
+                    var aProps = document.getElementById('senha').value;
+                    var bProps = document.getElementById('senha2').value;
+                    var aProps = document.getElementById('foto').value;
 
-                    require_once "../dataBase.php";
-                    #executar consulta no BD
-                    $sql = "INSERT INTO usuario (nome, email, senha, foto) 
-                    VALUES('{$_POST['nome']}','{$_POST['email']}','{$_POST['senha']}','{$arquivo}')";
-
-                    //echo $sql;
-                    if (!$con->query($sql)) {
-                        echo "Falha ao salvar registro!";
+                    if (document.getElementById("nome").value.length < 3) {
+                        alert('Por favor, preencha todos os campos!');
+                        //document.getElementById("senha2").focus();
+                        //return false
+                        event.preventDefault();
                     }
+                    if (document.getElementById("email").value.length < 3) {
+                        alert('Por favor, preencha todos os campos!');
+                        //document.getElementById("senha2").focus();
+                        //return false
+                        event.preventDefault();
+                    }
+                    if (document.getElementById("foto").value.length < 1) {
+                        alert('Por favor, escolha uma foto de perfil!');
+                        //document.getElementById("senha2").focus();
+                        //return false
+                        event.preventDefault();
+                    }
+                    // Verifica caso os campos estejam com menos de 3 caracteres
+                    if (document.getElementById("senha").value.length < 3) {
+                        //alert('Por favor, preencha a senha!');
+                        //document.getElementById("senha").focus();
+                        //return false
+                        event.preventDefault();
+
+                        if (document.getElementById("senha2").value.length < 3) {
+                            alert('Por favor, utilize uma senha maior!');
+                            //document.getElementById("senha2").focus();
+                            //return false
+                            event.preventDefault();
+                        }
+                    }
+
+                    if (document.getElementById("senha").value != document.getElementById("senha2").value) {
+                        //return false
+                        alert("Senhas incorretas!");
+                        event.preventDefault();
+
+                        <?php
+                        if (isset($_POST['enviar'])) {
+                            //if (isset($_POST['senha' == 'senha2'])) {
+                            $arquivo = "../template/imagens/" . $_FILES["foto"]["name"];
+                            if (move_uploaded_file($_FILES["foto"]["tmp_name"], $arquivo)) {
+
+                                require_once "../dataBase.php";
+                                #executar consulta no BD
+                                $sql = "INSERT INTO usuario (nome, email, senha, foto) 
+                                 VALUES('{$_POST['nome']}','{$_POST['email']}','{$_POST['senha']}','{$arquivo}')";
+
+                                //echo $sql;
+                                if (!$con->query($sql)) {
+                                    echo "Falha ao salvar registro!";
+                                }
+                            }
+                        }
+
+                        ?>
+
+                    }
+
                 }
-                //}else{echo"Senhas incorretas";}
-            }
-            ?>
+            </script>
         </div>
     </div>
     </form>
