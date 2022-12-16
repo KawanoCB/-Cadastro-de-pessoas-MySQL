@@ -124,29 +124,27 @@ include "../config.php";
                     if (document.getElementById("senha").value != document.getElementById("senha2").value) {
                         //return false
                         alert("Senhas incorretas!");
-                        event.preventDefault();
+                        event.preventDefault();               
+                    }
 
-                        <?php
-                        if (isset($_POST['enviar'])) {
-                            //if (isset($_POST['senha' == 'senha2'])) {
-                            $arquivo = "../template/imagens/" . $_FILES["foto"]["name"];
-                            if (move_uploaded_file($_FILES["foto"]["tmp_name"], $arquivo)) {
-
-                                require_once "../dataBase.php";
-                                #executar consulta no BD
-                                $sql = "INSERT INTO usuario (nome, email, senha, foto) 
-                                 VALUES('{$_POST['nome']}','{$_POST['email']}','{$_POST['senha']}','{$arquivo}')";
-
-                                //echo $sql;
-                                if (!$con->query($sql)) {
-                                    echo "Falha ao salvar registro!";
+                    <?php
+                            if (isset($_POST['enviar'])) {
+                                $arquivo = "../template/imagens/" . $_FILES["foto"]["name"];
+                                if (move_uploaded_file($_FILES["foto"]["tmp_name"], $arquivo)) {
+                            
+                                    require_once "../dataBase.php";
+                                    #executar consulta no BD
+                                    $password = mysqli_real_escape_string($con, $_POST["senha"]);  
+                                    $password = md5($password);
+                                    $sql = "INSERT INTO usuario (nome, email, senha, foto) 
+                                    VALUES('{$_POST['nome']}','{$_POST['email']}','{$password}','{$arquivo}')";                                                                                    
+                                    //echo $sql;
+                                    if (!$con->query($sql)) {
+                                        echo "Falha ao salvar registro!";                                
+                                    }
                                 }
                             }
-                        }
-
                         ?>
-
-                    }
 
                 }
             </script>
